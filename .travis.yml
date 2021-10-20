@@ -25,7 +25,6 @@ before_install:
 install:
   - sudo chmod +x install_dependencies.sh
   - ./install_dependencies.sh
-  - pkg-config --modversion opencv
 script:
   - export CXX=$COMPILER;
   - mkdir build
