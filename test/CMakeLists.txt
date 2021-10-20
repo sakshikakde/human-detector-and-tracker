@@ -3,12 +3,12 @@ set(GTEST_SHUFFLE 1)
 add_executable(
     cpp-test
     main.cpp
-    test_data.cpp
-    test_datareader.cpp
+    # test_data.cpp
+    # test_datareader.cpp
     test_detector.cpp
-    test_model.cpp
-    test_preprocessor.cpp
-    test_driver.cpp
+    # test_model.cpp
+    # test_preprocessor.cpp
+    # test_driver.cpp
 )
 
 target_include_directories(cpp-test PUBLIC ../vendor/googletest/googletest/include 
