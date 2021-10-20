@@ -13,8 +13,10 @@ using ::testing::_;
 
 TEST(detector_test, test_detect) {
     // SET
-    std::unique_ptr<MockModel> mockModel(new MockModel());
-    std::unique_ptr<MockFrameTR> mockFrameTR(new MockFrameTR());
+    // std::unique_ptr<MockModel> mockModel(new MockModel());
+    // std::unique_ptr<MockFrameTR> mockFrameTR(new MockFrameTR());
+    auto mockModel = std::make_unique<MockModel>();
+    auto mockFrameTR = std::make_unique<MockFrameTR>();
 
     std::string test_path = "../data/testdata/FudanPed00028.png";
     cv::Mat image = cv::imread(test_path);
@@ -49,13 +51,17 @@ TEST(detector_test, test_detect) {
     // cv::destroyAllWindows();
     delete detector;
     detector = nullptr;
+    ::testing::Mock::VerifyAndClearExpectations(mockModel.get());
+    ::testing::Mock::VerifyAndClearExpectations(mockFrameTR.get());
 }
 
 
 TEST(detector_test, test_detect_no_boundingbox) {
     // SET
-    std::unique_ptr<MockModel> mockModel(new MockModel());
-    std::unique_ptr<MockFrameTR> mockFrameTR(new MockFrameTR());
+    // std::unique_ptr<MockModel> mockModel(new MockModel());
+    // std::unique_ptr<MockFrameTR> mockFrameTR(new MockFrameTR());
+    auto mockModel = std::make_unique<MockModel>();
+    auto mockFrameTR = std::make_unique<MockFrameTR>();
 
     std::string test_path = "../data/testdata/horse.png";
     cv::Mat image = cv::imread(test_path);
@@ -78,4 +84,6 @@ TEST(detector_test, test_detect_no_boundingbox) {
 
     delete detector;
     detector = nullptr;
+    ::testing::Mock::VerifyAndClearExpectations(mockModel.get());
+    ::testing::Mock::VerifyAndClearExpectations(mockFrameTR.get());
 }
