@@ -39,8 +39,8 @@ class HumanDetector : public Detector {
    * @param robotFrame frame transformation to get the coordinates in
    * robot frame
    */
-  HumanDetector(std::unique_ptr<Model<DetectionOutput, Image>> model,
-                  std::unique_ptr<FrameTransformation> robotFrame);
+  HumanDetector(std::unique_ptr<Model<DetectionOutput, Image>>&& model,
+                  std::unique_ptr<FrameTransformation>&& robotFrame);
 
   /**
    * @brief Destroy the Human Detector object
