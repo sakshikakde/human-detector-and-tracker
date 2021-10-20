@@ -8,7 +8,7 @@ sudo apt-get install -y cmake git libgtk2.0-dev pkg-config libavcodec-dev libavf
 sudo apt-get install -y python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libjasper-dev libdc1394-22-dev
 sudo apt-get install -y libopencv-dev
 sudo apt-get install -y libopencv-contrib-dev
-export CC="gcc $(pkg-config --cflags opencv)"
+export CC="gcc $(pkg-config --cflags --libs opencv)"
 
 
 # # Download v3.3.0
