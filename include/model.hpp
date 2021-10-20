@@ -28,7 +28,7 @@ class Model {
    */
   virtual T predict(U data) = 0;
 
-  virtual ~Model() {}
+  virtual ~Model() {std::cout << "Model destroyed.." << std::endl;}
 };
 
 
