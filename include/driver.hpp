@@ -30,9 +30,9 @@ class Driver {
    * @param preProcessor for the preprocessing of the data 
    * @param detector to detect the objects in the image data
    */
-  Driver(std::unique_ptr<DataReader<cv::Mat>> dataReader,
-         std::unique_ptr<PreProcessor> preProcessor,
-         std::unique_ptr<Detector> detector);
+  Driver(std::unique_ptr<DataReader<cv::Mat>>&& dataReader,
+         std::unique_ptr<PreProcessor>&& preProcessor,
+         std::unique_ptr<Detector>&& detector);
 
   /**
    * @brief Destroy the Driver object
