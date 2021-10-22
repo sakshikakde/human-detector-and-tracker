@@ -22,7 +22,7 @@ sudo apt-get install -y python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev l
 # sudo make install
 sudo apt update
 
-sudo apt install libopencv-dev python3-opencv
+sudo apt install libopencv-dev 
 
 
 sudo sh -c 'echo "/usr/local/lib" > /etc/ld.so.conf.d/opencv.conf'
