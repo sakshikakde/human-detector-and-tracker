@@ -39,8 +39,8 @@ class HumanDetector : public Detector {
    * @param robotFrame frame transformation to get the coordinates in
    * robot frame
    */
-  HumanDetector(std::unique_ptr<Model<DetectionOutput, Image>>&& model,
-                  std::unique_ptr<FrameTransformation>&& robotFrame);
+  HumanDetector(std::shared_ptr<Model<DetectionOutput, Image>> model,
+                  std::shared_ptr<FrameTransformation> robotFrame);
 
   /**
    * @brief Destroy the Human Detector object
@@ -60,10 +60,10 @@ class HumanDetector : public Detector {
 
  private:
   // model to find the humans
-  std::unique_ptr<Model<DetectionOutput, Image>> model;
+  std::shared_ptr<Model<DetectionOutput, Image>> model;
 
   // to get the coordinates in robot frame
-  std::unique_ptr<FrameTransformation> robotFrame;
+  std::shared_ptr<FrameTransformation> robotFrame;
 
   /**
    * @brief Get the list of centroid coordinates of the detected humans in an image
