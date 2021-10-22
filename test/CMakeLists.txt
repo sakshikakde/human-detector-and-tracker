@@ -5,6 +5,7 @@ add_executable(
     main.cpp
     # test_data.cpp
     # test_datareader.cpp
+    test_driver.cpp
     test_detector.cpp
     # test_model.cpp
     # test_preprocessor.cpp

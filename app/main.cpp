@@ -16,26 +16,26 @@ int main() {
   std::cout << "Welcome to Human Detector and Tracker."
             << std::endl;
 
-  std::unique_ptr<DataReader<cv::Mat>> dataReader(new ImageReader());
-  std::unique_ptr<PreProcessor> preProcessor(new PreProcessor());
-  std::unique_ptr<Model<DetectionOutput, Image>> svmModel(
-                                            new SVMHumanClassifier());
-  std::unique_ptr<FrameTransformation> robotFrame(new FrameTransformation());
+  // std::unique_ptr<DataReader<cv::Mat>> dataReader(new ImageReader());
+  // std::unique_ptr<PreProcessor> preProcessor(new PreProcessor());
+  // std::unique_ptr<Model<DetectionOutput, Image>> svmModel(
+  //                                           new SVMHumanClassifier());
+  // std::unique_ptr<FrameTransformation> robotFrame(new FrameTransformation());
 
 
-  std::unique_ptr<Detector> humanDetector(new HumanDetector(std::move(svmModel),
-                                              std::move(robotFrame)));
+  // std::unique_ptr<Detector> humanDetector(new HumanDetector(std::move(svmModel),
+  //                                             std::move(robotFrame)));
 
-  Driver* detectionDriver = new Driver(std::move(dataReader),
-                                       std::move(preProcessor),
-                                       std::move(humanDetector));
+  // Driver* detectionDriver = new Driver(std::move(dataReader),
+  //                                      std::move(preProcessor),
+  //                                      std::move(humanDetector));
 
-  std::string test_dir = "../data/testdata";
-  detectionDriver->executeDetectionPipeLine(test_dir);
+  // std::string test_dir = "../data/testdata";
+  // detectionDriver->executeDetectionPipeLine(test_dir);
 
-  delete detectionDriver;
+  // delete detectionDriver;
 
-  cv::destroyAllWindows();
+  // cv::destroyAllWindows();
   return 0;
 }
 
