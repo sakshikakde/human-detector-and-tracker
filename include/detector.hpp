@@ -41,7 +41,7 @@ class HumanDetector : public Detector {
    */
   // HumanDetector(std::shared_ptr<Model<DetectionOutput, Image>> model,
   //                 std::shared_ptr<FrameTransformation> robotFrame);
-  HumanDetector(Model<DetectionOutput, Image>* model,
+  HumanDetector(AbstractSVMModel* model,
                 FrameTransformation* robotFrame);
 
   /**
@@ -63,7 +63,7 @@ class HumanDetector : public Detector {
  private:
   // model to find the humans
   // std::shared_ptr<Model<DetectionOutput, Image>> model;
-  Model<DetectionOutput, Image>* model;
+  AbstractSVMModel* model;
 
   // to get the coordinates in robot frame
   // std::shared_ptr<FrameTransformation> robotFrame;

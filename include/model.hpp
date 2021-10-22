@@ -28,11 +28,16 @@ class Model {
    */
   virtual T predict(U data) = 0;
 
-  virtual ~Model() {std::cout << "Model destroyed.." << std::endl;}
+  virtual ~Model() { std::cout << "Model destroyed.." << std::endl; }
 };
 
+class AbstractSVMModel {
+ public:
+  virtual DetectionOutput predict(Image inputData) = 0;
+  virtual ~AbstractSVMModel() { std::cout << "Model destroyed.." << std::endl; }
+};
 
-class SVMHumanClassifier : public Model<DetectionOutput, Image> {
+class SVMHumanClassifier : public AbstractSVMModel {
  public:
   /**
    * @brief Construct a new SVMHumanClassifier object

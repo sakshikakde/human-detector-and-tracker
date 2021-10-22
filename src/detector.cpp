@@ -17,7 +17,7 @@ HD::HumanDetector() {}
 //     this->robotFrame = robotFrame;
 // }
 
-HD::HumanDetector(Model<DetectionOutput, Image>* model,
+HD::HumanDetector(AbstractSVMModel* model,
                   FrameTransformation* robotFrame) {
     this->model = model;
     this->robotFrame = robotFrame;

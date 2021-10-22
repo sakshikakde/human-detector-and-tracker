@@ -9,7 +9,7 @@
 #include <model.hpp>
 #include <types.hpp>
 
-class MockModel : public Model<DetectionOutput, Image> {
+class MockModel : public AbstractSVMModel {
  public:
   MOCK_METHOD1(predict, DetectionOutput(Image));
 };
