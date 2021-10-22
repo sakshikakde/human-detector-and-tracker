@@ -12,14 +12,16 @@ sudo apt-get install -y python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev l
 
 
 # # Download v3.3.0
-curl -sL https://github.com/Itseez/opencv/archive/3.3.0.zip > opencv.zip
-unzip opencv.zip
-cd opencv-3.3.0
-mkdir build
-cd build
-cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D WITH_TBB=ON -D BUILD_NEW_PYTHON_SUPPORT=ON -D WITH_V4L=ON -D INSTALL_C_EXAMPLES=ON -D INSTALL_PYTHON_EXAMPLES=ON -D BUILD_EXAMPLES=ON -D WITH_QT=ON -D WITH_OPENGL=ON ..
-make -j4
-sudo make install
+# curl -sL https://github.com/Itseez/opencv/archive/3.3.0.zip > opencv.zip
+# unzip opencv.zip
+# cd opencv-3.3.0
+# mkdir build
+# cd build
+# cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D WITH_TBB=ON -D BUILD_NEW_PYTHON_SUPPORT=ON -D WITH_V4L=ON -D INSTALL_C_EXAMPLES=ON -D INSTALL_PYTHON_EXAMPLES=ON -D BUILD_EXAMPLES=ON -D WITH_QT=ON -D WITH_OPENGL=ON ..
+# make -j4
+# sudo make install
+
+sudo apt-get install libopencv-dev
 
 sudo sh -c 'echo "/usr/local/lib" > /etc/ld.so.conf.d/opencv.conf'
 sudo ldconfig
