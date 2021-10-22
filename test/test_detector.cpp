@@ -13,10 +13,10 @@ using ::testing::_;
 
 TEST(detector_test, test_detect) {
     // SET
-    // std::unique_ptr<MockModel> mockModel(new MockModel());
-    // std::unique_ptr<MockFrameTR> mockFrameTR(new MockFrameTR());
-    auto mockModel = std::make_unique<MockModel>();
-    auto mockFrameTR = std::make_unique<MockFrameTR>();
+    // std::shared_ptr<MockModel> mockModel(new MockModel());
+    // std::shared_ptr<MockFrameTR> mockFrameTR(new MockFrameTR());
+    // auto mockModel = std::make_unique<MockModel>();
+    // auto mockFrameTR = std::make_unique<MockFrameTR>();
 
     std::string test_path = "../data/testdata/FudanPed00028.png";
     cv::Mat image = cv::imread(test_path);
@@ -38,8 +38,8 @@ TEST(detector_test, test_detect) {
 
 
     // ACT
-    Detector* detector = new HumanDetector(std::move(mockModel),
-                                           std::move(mockFrameTR));
+    Detector* detector = new HumanDetector(mockModel,
+                                           mockFrameTR);
     std::vector<Coord3D> detectionOut = detector->detect(image);
 
     EXPECT_EQ(detectionOut.at(0).x, expectedFrame.x);
@@ -51,17 +51,17 @@ TEST(detector_test, test_detect) {
     // cv::destroyAllWindows();
     delete detector;
     detector = nullptr;
-    ::testing::Mock::VerifyAndClearExpectations(mockModel.get());
-    ::testing::Mock::VerifyAndClearExpectations(mockFrameTR.get());
+    // ::testing::Mock::VerifyAndClearExpectations(mockModel.get());
+    // ::testing::Mock::VerifyAndClearExpectations(mockFrameTR.get());
 }
 
 
 TEST(detector_test, test_detect_no_boundingbox) {
     // SET
-    // std::unique_ptr<MockModel> mockModel(new MockModel());
-    // std::unique_ptr<MockFrameTR> mockFrameTR(new MockFrameTR());
-    auto mockModel = std::make_unique<MockModel>();
-    auto mockFrameTR = std::make_unique<MockFrameTR>();
+    std::shared_ptr<MockModel> mockModel(new MockModel());
+    std::shared_ptr<MockFrameTR> mockFrameTR(new MockFrameTR());
+    // auto mockModel = std::make_unique<MockModel>();
+    // auto mockFrameTR = std::make_unique<MockFrameTR>();
 
     std::string test_path = "../data/testdata/horse.png";
     cv::Mat image = cv::imread(test_path);
@@ -76,14 +76,14 @@ TEST(detector_test, test_detect_no_boundingbox) {
                 .WillOnce(::testing::Return(expectedPrediction));
 
     // ACT
-    Detector* detector = new HumanDetector(std::move(mockModel),
-                                           std::move(mockFrameTR));
+    Detector* detector = new HumanDetector(mockModel,
+                                           mockFrameTR);
     std::vector<Coord3D> detectionOut = detector->detect(image);
 
     EXPECT_EQ(0, detectionOut.size());
 
     delete detector;
     detector = nullptr;
-    ::testing::Mock::VerifyAndClearExpectations(mockModel.get());
-    ::testing::Mock::VerifyAndClearExpectations(mockFrameTR.get());
+    // ::testing::Mock::VerifyAndClearExpectations(mockModel.get());
+    // ::testing::Mock::VerifyAndClearExpectations(mockFrameTR.get());
 }
