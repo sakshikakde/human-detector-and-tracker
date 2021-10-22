@@ -21,7 +21,7 @@ sudo apt-get install -y python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev l
 # make -j4
 # sudo make install
 
-# sudo apt-get install libopencv-dev
+sudo apt-get install libopencv-dev
 
 
 sudo sh -c 'echo "/usr/local/lib" > /etc/ld.so.conf.d/opencv.conf'
