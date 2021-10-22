@@ -12,14 +12,19 @@ using ::testing::_;
 
 TEST(detector_test, test_detector_impl) {
     MockModel mockModel;
+    MockFrameTR mockFrameTR;
     cv::Mat image;
 
     DetectionOutput expectedPrediction;
+    Coord3D expectedFrame(0, 0, 0);
 
     EXPECT_CALL(mockModel, predict(_))
                 .WillOnce(::testing::Return(expectedPrediction));
 
-    Detector* detector = new DetectorImpl(&mockModel);
+    EXPECT_CALL(mockFrameTR, getRobotFrame(_))
+                .WillOnce(::testing::Return(expectedFrame));
+
+    Detector* detector = new DetectorImpl(&mockModel, &mockFrameTR);
     std::vector<Coord3D> detectionOut = detector->detect(image);
 
     EXPECT_EQ(detectionOut.size(), 0);

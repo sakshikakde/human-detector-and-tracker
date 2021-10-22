@@ -27,12 +27,13 @@ class Detector {
 class DetectorImpl : public Detector {
  public:
   DetectorImpl();
-  explicit DetectorImpl(AbstractSVMModel* model);
+  DetectorImpl(AbstractSVMModel* model, FrameTransformation* robotFrame);
   virtual ~DetectorImpl() {}
   std::vector<Coord3D> detect(const cv::Mat& inputData);
 
  private:
   AbstractSVMModel* model;
+  FrameTransformation* robotFrame;
 };
 
 class HumanDetector : public Detector {

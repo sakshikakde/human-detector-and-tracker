@@ -9,19 +9,6 @@
 typedef HumanDetector HD;
 
 
-DetectorImpl::DetectorImpl() {}
-
-DetectorImpl::DetectorImpl(AbstractSVMModel* model) {
-  this->model = model;
-}
-
-std::vector<Coord3D> DetectorImpl::detect(const cv::Mat& inputData) {
-  this->model->predict(inputData);
-  std::vector<Coord3D> coordinates;
-  return coordinates;
-}
-
-
 HD::HumanDetector() {}
 
 
@@ -105,5 +92,25 @@ std::vector<Coord3D> HD::detect(const cv::Mat &inputData) {
 
   return coordinates;
 }
+
+
+
+DetectorImpl::DetectorImpl() {}
+
+DetectorImpl::DetectorImpl(AbstractSVMModel* model,
+                           FrameTransformation* robotFrame) {
+  this->model = model;
+  this->robotFrame = robotFrame;
+}
+
+std::vector<Coord3D> DetectorImpl::detect(const cv::Mat& inputData) {
+  DetectionOutput predictionOutput = this->model->predict(inputData);
+
+  Coord2D centroid;
+  Coord3D robotFrameCoord = this->robotFrame->getRobotFrame(centroid);
+  std::vector<Coord3D> coordinates;
+  return coordinates;
+}
+
 
 
