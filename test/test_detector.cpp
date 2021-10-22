@@ -10,83 +10,100 @@
 
 using ::testing::_;
 
-
-TEST(detector_test, test_detect) {
-    // SET
-    // std::shared_ptr<MockModel> mockModel(new MockModel());
-    // std::shared_ptr<MockFrameTR> mockFrameTR(new MockFrameTR());
-
+TEST(detector_test, test_detector_impl) {
     MockModel mockModel;
-    MockFrameTR mockFrameTR;
+    cv::Mat image;
 
-    std::string test_path = "../data/testdata/FudanPed00028.png";
-    cv::Mat image = cv::imread(test_path);
-
-    // ARRANGE
-    Rectangles boundingBoxes;
-    cv::Rect bb(10, 10, 10, 10);
-    boundingBoxes.push_back(bb);
-
-    std::vector<double> scores = {0.1};
-    DetectionOutput expectedPrediction({boundingBoxes, scores});
-    Coord3D expectedFrame(0, 0, 0);
+    DetectionOutput expectedPrediction;
 
     EXPECT_CALL(mockModel, predict(_))
                 .WillOnce(::testing::Return(expectedPrediction));
 
-    EXPECT_CALL(mockFrameTR, getRobotFrame(_))
-                .WillOnce(::testing::Return(expectedFrame));
-
-
-    // ACT
-    Detector* detector = new HumanDetector(&mockModel,
-                                           &mockFrameTR);
+    Detector* detector = new DetectorImpl(&mockModel);
     std::vector<Coord3D> detectionOut = detector->detect(image);
 
-    EXPECT_EQ(detectionOut.at(0).x, expectedFrame.x);
-    EXPECT_EQ(detectionOut.at(0).y, expectedFrame.y);
-    EXPECT_EQ(detectionOut.at(0).z, expectedFrame.z);
-
-    std::cout << "testing done! for detection" << std::endl;
-
-    // cv::destroyAllWindows();
-    delete detector;
-    detector = nullptr;
-    // ::testing::Mock::VerifyAndClearExpectations(mockModel.get());
-    // ::testing::Mock::VerifyAndClearExpectations(mockFrameTR.get());
-}
-
-
-TEST(detector_test, test_detect_no_boundingbox) {
-    // SET
-    // std::shared_ptr<MockModel> mockModel(new MockModel());
-    // std::shared_ptr<MockFrameTR> mockFrameTR(new MockFrameTR());
-    // auto mockModel = std::make_unique<MockModel>();
-    // auto mockFrameTR = std::make_unique<MockFrameTR>();
-    MockModel mockModel;
-    MockFrameTR mockFrameTR;
-
-    std::string test_path = "../data/testdata/horse.png";
-    cv::Mat image = cv::imread(test_path);
-
-    // ARRANGE
-    Rectangles boundingBoxes;
-    std::vector<double> scores;
-
-    DetectionOutput expectedPrediction({boundingBoxes, scores});
-
-    EXPECT_CALL(mockModel, predict(_))
-                .WillOnce(::testing::Return(expectedPrediction));
-
-    // ACT
-    Detector* detector = new HumanDetector(&mockModel,
-                                           &mockFrameTR);
-    std::vector<Coord3D> detectionOut = detector->detect(image);
-
-    EXPECT_EQ(0, detectionOut.size());
+    EXPECT_EQ(detectionOut.size(), 0);
 
     delete detector;
-    detector = nullptr;
-    // ::testing::Mock::VerifyAndClearExpectations(mockModel.get());
-    // ::testing::Mock::VerifyAndClearExpectations(mockFrameTR.get());
+    // detector = nullptr;
 }
+
+// TEST(detector_test, test_detect) {
+//     // SET
+//     // std::shared_ptr<MockModel> mockModel(new MockModel());
+//     // std::shared_ptr<MockFrameTR> mockFrameTR(new MockFrameTR());
+
+//     MockModel mockModel;
+//     MockFrameTR mockFrameTR;
+
+//     std::string test_path = "../data/testdata/FudanPed00028.png";
+//     cv::Mat image = cv::imread(test_path);
+
+//     // ARRANGE
+//     Rectangles boundingBoxes;
+//     cv::Rect bb(10, 10, 10, 10);
+//     boundingBoxes.push_back(bb);
+
+//     std::vector<double> scores = {0.1};
+//     DetectionOutput expectedPrediction({boundingBoxes, scores});
+//     Coord3D expectedFrame(0, 0, 0);
+
+//     EXPECT_CALL(mockModel, predict(_))
+//                 .WillOnce(::testing::Return(expectedPrediction));
+
+//     EXPECT_CALL(mockFrameTR, getRobotFrame(_))
+//                 .WillOnce(::testing::Return(expectedFrame));
+
+
+//     // ACT
+//     Detector* detector = new HumanDetector(&mockModel,
+//                                            &mockFrameTR);
+//     std::vector<Coord3D> detectionOut = detector->detect(image);
+
+//     EXPECT_EQ(detectionOut.at(0).x, expectedFrame.x);
+//     EXPECT_EQ(detectionOut.at(0).y, expectedFrame.y);
+//     EXPECT_EQ(detectionOut.at(0).z, expectedFrame.z);
+
+//     std::cout << "testing done! for detection" << std::endl;
+
+//     // cv::destroyAllWindows();
+//     delete detector;
+//     detector = nullptr;
+//     // ::testing::Mock::VerifyAndClearExpectations(mockModel.get());
+//     // ::testing::Mock::VerifyAndClearExpectations(mockFrameTR.get());
+// }
+
+
+// TEST(detector_test, test_detect_no_boundingbox) {
+//     // SET
+//     // std::shared_ptr<MockModel> mockModel(new MockModel());
+//     // std::shared_ptr<MockFrameTR> mockFrameTR(new MockFrameTR());
+//     // auto mockModel = std::make_unique<MockModel>();
+//     // auto mockFrameTR = std::make_unique<MockFrameTR>();
+//     MockModel mockModel;
+//     MockFrameTR mockFrameTR;
+
+//     std::string test_path = "../data/testdata/horse.png";
+//     cv::Mat image = cv::imread(test_path);
+
+//     // ARRANGE
+//     Rectangles boundingBoxes;
+//     std::vector<double> scores;
+
+//     DetectionOutput expectedPrediction({boundingBoxes, scores});
+
+//     EXPECT_CALL(mockModel, predict(_))
+//                 .WillOnce(::testing::Return(expectedPrediction));
+
+//     // ACT
+//     Detector* detector = new HumanDetector(&mockModel,
+//                                            &mockFrameTR);
+//     std::vector<Coord3D> detectionOut = detector->detect(image);
+
+//     EXPECT_EQ(0, detectionOut.size());
+
+//     delete detector;
+//     detector = nullptr;
+//     // ::testing::Mock::VerifyAndClearExpectations(mockModel.get());
+//     // ::testing::Mock::VerifyAndClearExpectations(mockFrameTR.get());
+// }

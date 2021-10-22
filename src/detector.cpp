@@ -8,6 +8,20 @@
 
 typedef HumanDetector HD;
 
+
+DetectorImpl::DetectorImpl() {}
+
+DetectorImpl::DetectorImpl(AbstractSVMModel* model) {
+  this->model = model;
+}
+
+std::vector<Coord3D> DetectorImpl::detect(const cv::Mat& inputData) {
+  this->model->predict(inputData);
+  std::vector<Coord3D> coordinates;
+  return coordinates;
+}
+
+
 HD::HumanDetector() {}
 
 

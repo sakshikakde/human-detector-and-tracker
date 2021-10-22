@@ -3,10 +3,10 @@
 #ifndef INCLUDE_DETECTOR_HPP_
 #define INCLUDE_DETECTOR_HPP_
 
-#include <memory>
 #include <vector>
-#include <model.hpp>
+#include <memory>
 #include <frame_transformation.hpp>
+#include <model.hpp>
 #include <types.hpp>
 
 /**
@@ -20,8 +20,19 @@ class Detector {
    * @brief detects objects in image
    * 
    */
-  virtual std::vector<Coord3D> detect(const cv::Mat &inputData) = 0;
+  virtual std::vector<Coord3D> detect(const cv::Mat& inputData) = 0;
   virtual ~Detector() {}
+};
+
+class DetectorImpl : public Detector {
+ public:
+  DetectorImpl();
+  explicit DetectorImpl(AbstractSVMModel* model);
+  virtual ~DetectorImpl() {}
+  std::vector<Coord3D> detect(const cv::Mat& inputData);
+
+ private:
+  AbstractSVMModel* model;
 };
 
 class HumanDetector : public Detector {
@@ -58,7 +69,7 @@ class HumanDetector : public Detector {
    * @return std::vector<Coord3D> coordinates of all the detected humans
    * in robot frame
    */
-  std::vector<Coord3D> detect(const cv::Mat &inputData) override;
+  std::vector<Coord3D> detect(const cv::Mat& inputData) override;
 
  private:
   // model to find the humans
@@ -91,8 +102,8 @@ class HumanDetector : public Detector {
    * @param inputData image data 
    * @param predictionOutput pair of bounding boxes and respective scores
    */
-  void displayOutput(const cv::Mat &inputData,
-                     const DetectionOutput &predictionOutput);
+  void displayOutput(const cv::Mat& inputData,
+                     const DetectionOutput& predictionOutput);
 };
 
 #endif  // INCLUDE_DETECTOR_HPP_
