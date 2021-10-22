@@ -21,7 +21,7 @@ sudo apt-get install -y python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev l
 # make -j4
 # sudo make install
 sudo apt update
-
+sudo apt-get install python3-opencv
 sudo apt install libopencv-dev 
 
 
