@@ -11,10 +11,10 @@ typedef HumanDetector HD;
 HD::HumanDetector() {}
 
 
-HD::HumanDetector(std::unique_ptr<Model<DetectionOutput, Image>>&& model,
-                  std::unique_ptr<FrameTransformation>&& robotFrame) {
-    this->model = std::move(model);
-    this->robotFrame = std::move(robotFrame);
+HD::HumanDetector(std::shared_ptr<Model<DetectionOutput, Image>> model,
+                  std::shared_ptr<FrameTransformation> robotFrame) {
+    this->model = model;
+    this->robotFrame = robotFrame;
 }
 
 
