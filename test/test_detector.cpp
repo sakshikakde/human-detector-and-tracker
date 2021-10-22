@@ -13,8 +13,8 @@ using ::testing::_;
 
 TEST(detector_test, test_detect) {
     // SET
-    // std::shared_ptr<MockModel> mockModel(new MockModel());
-    // std::shared_ptr<MockFrameTR> mockFrameTR(new MockFrameTR());
+    std::shared_ptr<MockModel> mockModel(new MockModel());
+    std::shared_ptr<MockFrameTR> mockFrameTR(new MockFrameTR());
     // auto mockModel = std::make_unique<MockModel>();
     // auto mockFrameTR = std::make_unique<MockFrameTR>();
 
