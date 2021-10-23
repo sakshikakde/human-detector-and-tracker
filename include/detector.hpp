@@ -34,6 +34,8 @@ class DetectorImpl : public Detector {
  private:
   AbstractSVMModel* model;
   FrameTransformation* robotFrame;
+  void displayOutput(const cv::Mat& inputData,
+                     const DetectionOutput& predictionOutput);
 };
 
 class HumanDetector : public Detector {
