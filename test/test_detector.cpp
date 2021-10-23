@@ -13,7 +13,9 @@ using ::testing::_;
 TEST(detector_test, test_detector_impl) {
     MockModel mockModel;
     MockFrameTR mockFrameTR;
-    cv::Mat image;
+
+    std::string test_path = "../data/testdata/FudanPed00028.png";
+    cv::Mat image = cv::imread(test_path);
 
     Rectangles boundingBoxes;
     cv::Rect bb(10, 10, 10, 10);
