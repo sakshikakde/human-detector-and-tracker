@@ -9,7 +9,7 @@
 typedef HumanDetector HD;
 
 
-HD::HumanDetector() {}
+HumanDetector::HumanDetector() {}
 
 
 // HD::HumanDetector(std::shared_ptr<Model<DetectionOutput, Image>> model,
@@ -18,16 +18,17 @@ HD::HumanDetector() {}
 //     this->robotFrame = robotFrame;
 // }
 
-HD::HumanDetector(AbstractSVMModel* model,
+HumanDetector::HumanDetector(AbstractSVMModel* model,
                   FrameTransformation* robotFrame) {
     this->model = model;
     this->robotFrame = robotFrame;
 }
 
-HD::~HumanDetector() {
+HumanDetector::~HumanDetector() {
 }
 
-std::vector<Coord2D> HD::getCentroids(const Rectangles& boundingBoxes) {
+std::vector<Coord2D> HumanDetector::getCentroids(
+                                      const Rectangles& boundingBoxes) {
   std::vector<Coord2D> centroids;
   for (const cv::Rect& box : boundingBoxes) {
     Coord2D centroid;
@@ -38,7 +39,7 @@ std::vector<Coord2D> HD::getCentroids(const Rectangles& boundingBoxes) {
   return centroids;
 }
 
-std::vector<Coord3D> HD::getRobotFrameCoordinates(
+std::vector<Coord3D> HumanDetector::getRobotFrameCoordinates(
                                 const Rectangles& boundingBoxes) {
   std::vector<Coord2D> centroids = this->getCentroids(boundingBoxes);
   std::vector<Coord3D> robotFrameCoordinates;
@@ -49,8 +50,8 @@ std::vector<Coord3D> HD::getRobotFrameCoordinates(
   return robotFrameCoordinates;
 }
 
-void HD::displayOutput(const cv::Mat &image,
-                       const DetectionOutput &predictionOutput) {
+void HumanDetector::displayOutput(const cv::Mat &image,
+                       const DetectionOutput &predictionOutput, bool isTestMode) {
   Rectangles boundingBoxes = predictionOutput.getData().first;
   std::vector<double> confidenceScores = predictionOutput.getData().second;
   int i = 0;
@@ -68,12 +69,14 @@ void HD::displayOutput(const cv::Mat &image,
 
     i++;
   }
-
-  cv::imshow("Detected Humans", image);
-  cv::waitKey(600);
+  if (!isTestMode) {
+    cv::imshow("Detected Humans", image);
+    cv::waitKey(600);
+  }
 }
 
-std::vector<Coord3D> HD::detect(const cv::Mat &inputData) {
+std::vector<Coord3D> HumanDetector::detect(const cv::Mat &inputData, 
+                                            bool isTestMode) {
   std::cout << "Detecting objects" << std::endl;
   DetectionOutput predictionOutput = this->model->predict(inputData);
 
@@ -90,7 +93,7 @@ std::vector<Coord3D> HD::detect(const cv::Mat &inputData) {
                           this->getRobotFrameCoordinates(boundingBoxes);
 
   // draw bounding boxes for each detected human and set the id
-  this->displayOutput(inputData, predictionOutput);
+  this->displayOutput(inputData, predictionOutput, isTestMode);
 
   return coordinates;
 }
@@ -105,8 +108,32 @@ DetectorImpl::DetectorImpl(AbstractSVMModel* model,
   this->robotFrame = robotFrame;
 }
 
+std::vector<Coord2D> DetectorImpl::getCentroids(
+                    const Rectangles& boundingBoxes) {
+  std::vector<Coord2D> centroids;
+  for (const cv::Rect& box : boundingBoxes) {
+    Coord2D centroid;
+    centroid.x = (box.tl().x + box.br().x)/2.0;
+    centroid.y = (box.tl().y + box.br().y)/2.0;
+    centroids.push_back(centroid);
+  }
+  return centroids;
+}
+
+std::vector<Coord3D> DetectorImpl::getRobotFrameCoordinates(
+                                const Rectangles& boundingBoxes) {
+  std::vector<Coord2D> centroids = this->getCentroids(boundingBoxes);
+  std::vector<Coord3D> robotFrameCoordinates;
+  for (const Coord2D& centroid : centroids) {
+    Coord3D robotFrameCoord = this->robotFrame->getRobotFrame(centroid);
+    robotFrameCoordinates.push_back(robotFrameCoord);
+  }
+  return robotFrameCoordinates;
+}
+
 void DetectorImpl::displayOutput(const cv::Mat &image,
-                       const DetectionOutput &predictionOutput) {
+                       const DetectionOutput &predictionOutput,
+                       bool isTestMode) {
   Rectangles boundingBoxes = predictionOutput.getData().first;
   std::vector<double> confidenceScores = predictionOutput.getData().second;
   int i = 0;
@@ -125,12 +152,15 @@ void DetectorImpl::displayOutput(const cv::Mat &image,
     i++;
   }
 
-  cv::imshow("Detected Humans", image);
-  cv::waitKey(600);
+  if (!isTestMode) {
+    cv::imshow("Detected Humans", image);
+    cv::waitKey(600);
+  }
 }
 
 
-std::vector<Coord3D> DetectorImpl::detect(const cv::Mat& inputData) {
+std::vector<Coord3D> DetectorImpl::detect(const cv::Mat& inputData,
+                                          bool isTestMode) {
   DetectionOutput predictionOutput = this->model->predict(inputData);
 
   Rectangles boundingBoxes = predictionOutput.getData().first;
@@ -144,7 +174,7 @@ std::vector<Coord3D> DetectorImpl::detect(const cv::Mat& inputData) {
   std::vector<Coord3D> coordinates;
 
   // draw bounding boxes for each detected human and set the id
-  this->displayOutput(inputData, predictionOutput);
+  this->displayOutput(inputData, predictionOutput, isTestMode);
 
   return coordinates;
 }

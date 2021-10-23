@@ -32,9 +32,13 @@ TEST(detector_test, test_detector_impl) {
                 .WillOnce(::testing::Return(expectedFrame));
 
     Detector* detector = new DetectorImpl(&mockModel, &mockFrameTR);
-    std::vector<Coord3D> detectionOut = detector->detect(image);
+    std::vector<Coord3D> detectionOut = detector->detect(image, true);
 
     EXPECT_EQ(detectionOut.size(), 0);
+    // EXPECT_EQ(detectionOut.at(0).x, expectedFrame.x);
+    // EXPECT_EQ(detectionOut.at(0).y, expectedFrame.y);
+    // EXPECT_EQ(detectionOut.at(0).z, expectedFrame.z);
+
 
     delete detector;
     // detector = nullptr;

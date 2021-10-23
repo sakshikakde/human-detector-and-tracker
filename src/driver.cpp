@@ -7,10 +7,12 @@ Driver::Driver() {
 
 Driver::Driver(std::unique_ptr<DataReader<cv::Mat>>&& dataReader,
          std::unique_ptr<PreProcessor>&& preProcessor,
-         std::unique_ptr<Detector>&& detector) {
+         std::unique_ptr<Detector>&& detector,
+         bool test_mode) {
   this->dataReader = std::move(dataReader);
   this->preProcessor = std::move(preProcessor);
   this->humanDetector = std::move(detector);
+  this->test_mode = test_mode;
 }
 
 Driver::~Driver() {
@@ -29,7 +31,8 @@ bool Driver::executeDetectionPipeLine(std::string data_path) {
             continue;
         }
         this->preProcessor->resize(frame, frame, cv::Size());
-        std::vector<Coord3D> locations = this->humanDetector->detect(frame);
+        std::vector<Coord3D> locations = this->humanDetector->detect(frame,
+                                                            this->test_mode);
 
         // print the coordinates:
         std::cout << "For frame at " << file << "humans are at: " << std::endl;
