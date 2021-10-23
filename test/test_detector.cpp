@@ -15,7 +15,12 @@ TEST(detector_test, test_detector_impl) {
     MockFrameTR mockFrameTR;
     cv::Mat image;
 
-    DetectionOutput expectedPrediction;
+    Rectangles boundingBoxes;
+    cv::Rect bb(10, 10, 10, 10);
+    boundingBoxes.push_back(bb);
+
+    std::vector<double> scores = {0.1};
+    DetectionOutput expectedPrediction({boundingBoxes, scores});
     Coord3D expectedFrame(0, 0, 0);
 
     EXPECT_CALL(mockModel, predict(_))

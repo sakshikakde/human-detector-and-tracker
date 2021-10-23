@@ -76,6 +76,8 @@ void HD::displayOutput(const cv::Mat &image,
 std::vector<Coord3D> HD::detect(const cv::Mat &inputData) {
   std::cout << "Detecting objects" << std::endl;
   DetectionOutput predictionOutput = this->model->predict(inputData);
+
+  // null check should be there
   Rectangles boundingBoxes = predictionOutput.getData().first;
   if (boundingBoxes.size() < 1) {
     std::cout << "No humans detected for the given image." << std::endl;
@@ -105,6 +107,12 @@ DetectorImpl::DetectorImpl(AbstractSVMModel* model,
 
 std::vector<Coord3D> DetectorImpl::detect(const cv::Mat& inputData) {
   DetectionOutput predictionOutput = this->model->predict(inputData);
+
+  Rectangles boundingBoxes = predictionOutput.getData().first;
+  if (boundingBoxes.size() < 1) {
+    std::cout << "No humans detected for the given image." << std::endl;
+    return {};
+  }
 
   Coord2D centroid;
   Coord3D robotFrameCoord = this->robotFrame->getRobotFrame(centroid);
